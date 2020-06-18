@@ -30,23 +30,50 @@ router.get('/users/:userId', async(ctx) => {
 //creates user
 router.post('/users', async (ctx) => {
     const body = await ctx.request.body(); 
-    const { username, password } = body.value;
-    const user = await Users.create({
-        username: username,
-        password: password
+    const { email, name, displayName, password, birthday } = body.value;
+    const getAllUsers = await Users.getAllUsers();
+    
+    //Current email check solution
+    let emails: string[] = [];
+    getAllUsers.map((user:{
+        email: string
+    }) => {
+        emails.push(user.email)
     })
-    ctx.response.body = { insertedUser: user }
+
+    if(emails.includes(email)){
+        ctx.response.body = {
+            message: "This email is already being used! Please enter a new email."
+        }
+    }else{
+        const user = await Users.create({
+            email: email,
+            name: name,
+            displayName: displayName,
+            password: password,
+            birthday: birthday,
+            numOfPosts: 0,
+            posts: []
+        })
+        ctx.response.body = { insertedUser: user }
+    }
 });
 
 //update user
 router.patch('/users/:userId', async(ctx) => {
     const body = await ctx.request.body(); 
-    const { username, password } = body.value
+    const { email, name, displayName, password, birthday, } = body.value
     const id = ctx.params.userId!;
 
+
     const updatedUser = await Users.update(id, {
-        username: username,
-        password: password
+        email: email,
+        name: name,
+        displayName: displayName,
+        password: password,
+        birthday: birthday,
+        numOfPosts: 0,
+        posts: []
     })
     ctx.response.body = {
         message: 'User updated!',

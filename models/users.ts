@@ -3,8 +3,13 @@ import getDb from '../db.ts'
 
 //sets schema for data
 interface UserSchema {
-    username: string;
+    email: string,
+    name: string,
+    displayName: string,
     password: string;
+    birthday: string;
+    numOfPosts: number;
+    posts: []
   };
 
 export class Users {
@@ -25,12 +30,22 @@ export class Users {
        
         return allUsers.map((users : {
             _id: ObjectId,
-            username: string,
-            password: string
+            email: string,
+            name: string,
+            displayName: string
         } ) => ({
-            ...users
+            email: users.email,
+            name: users.name,
+            displayName: users.displayName
         }));
     } 
+
+    //working on filtering through emails for email check.
+    // static async getAllUserEmails(){
+    //     const allUserEmails = await getDb()
+    //     .collection('users')
+    //     .find();
+    // }
 
     //retrieves one user from database
     static async getOneUser(id: string){

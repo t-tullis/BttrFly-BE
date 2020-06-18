@@ -17,7 +17,7 @@ export class Users {
        //after user creation returns userId
        return { id: id.$oid }
     }
-
+    //retrieves all users from database
     static async getAllUsers(){
         const allUsers = await getDb()
             .collection('users')
@@ -29,10 +29,10 @@ export class Users {
             password: string
         } ) => ({
             ...users
-            // id: users._id.$oid,
         }));
     } 
 
+    //retrieves one user from database
     static async getOneUser(id: string){
         const user = await getDb()
             .collection('users')
@@ -41,12 +41,13 @@ export class Users {
         return user
     }
 
+    //updates user info 
     static async update(id: string, data: UserSchema){
         await getDb()
             .collection('users')
             .updateOne({ _id: ObjectId(id)} , { $set: data });
     }
-
+    //deletes user from database
     static async delete(id: string){
         await getDb()
         .collection('users')

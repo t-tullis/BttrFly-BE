@@ -53,7 +53,7 @@ router.patch('/users/:userId', async(ctx) => {
         updatedUser: updatedUser
     }
 })
-
+//Deletes user
 router.delete('/users/:userId', async(ctx) => {
     const id = ctx.params.userId!;
     const deletedUser = await Users.delete(id);
@@ -64,13 +64,6 @@ router.delete('/users/:userId', async(ctx) => {
     }
 })
     
-
-
-app.use(async (ctx, next) => {
-    console.log("Works!");
-   await next();
-})
-
 app.use(router.routes());
 app.use(router.allowedMethods());
 

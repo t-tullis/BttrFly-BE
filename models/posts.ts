@@ -4,18 +4,24 @@ import getDb from '../db.ts'
 //sets schema for data
 interface PostSchema {
     title: string;
-    body: string;
+    text: string;
+    numOfComments: number;
+    comments: [];
   };
 
 export class Posts {
     static async create(data: PostSchema){
         //creates collection if it hasn't been created already
-       const id = await getDb()
-       .collection('post')
+       const post = await getDb()
+       .collection('posts')
        .insertOne(data)
 
        //after post creation returns postId
-       return { id: id.$oid }
+       return { 
+           id: post.$oid,
+           title: post.title,
+           text:  post.text
+        }
     }
     //retrieves all users from database
     static async getAllPosts(){
@@ -26,10 +32,10 @@ export class Posts {
         return allPosts.map((post : {
             _id: ObjectId,
             title: string,
-            body: string,
+            text: string,
         } ) => ({
             title: post.title,
-            body: post.body,
+            text: post.text,
         }));
     } 
 

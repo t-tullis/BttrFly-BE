@@ -2,7 +2,7 @@ import { Router } from "https://deno.land/x/oak@v5.2.0/mod.ts";
 import { connect } from '../db.ts';
 import { Users } from '../models/users.ts'
 
-connect ();
+connect();
 
 const router = new Router();
 

@@ -11,4 +11,16 @@ router.get('/posts', async (ctx) => {
     ctx.response.body = { posts: getAllPosts };
 })
 
+router.post('/posts', async (ctx) => {
+    const body = await ctx.request.body();
+    const { title, text } = body.value;
+    const post = await Posts.create({
+        title: title,
+        text:text,
+        numOfComments: 0,
+        comments: []
+    })
+    ctx.response.body = { createdPost: post }
+})
+
 export default router;

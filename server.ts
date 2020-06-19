@@ -32,6 +32,26 @@ router.post('/users', async (ctx) => {
     const body = await ctx.request.body(); 
     const { email, name, displayName, password, birthday } = body.value;
     const getAllUsers = await Users.getAllUsers();
+    // const getEmail = await Users.getUserProfileByEmail(email.toLowerCase());
+
+    //     if(emails.includes(email.toLowerCase())){
+    //     ctx.response.body = {
+    //         message: "This email is already being used! Please enter a new email."
+    //     }
+    // }else{
+    //     const user = await Users.create({
+    //         email: email.toLowerCase(),
+    //         name: name,
+    //         displayName: displayName,
+    //         password: password,
+    //         birthday: birthday,
+    //         numOfPosts: 0,
+    //         posts: []
+    //     })
+    //     ctx.response.body = { insertedUser: user }
+    // }
+
+    // console.log(getEmail)
     
     //Current email check solution
     let emails: string[] = [];
@@ -41,13 +61,13 @@ router.post('/users', async (ctx) => {
         emails.push(user.email)
     })
 
-    if(emails.includes(email)){
+    if(emails.includes(email.toLowerCase())){
         ctx.response.body = {
             message: "This email is already being used! Please enter a new email."
         }
     }else{
         const user = await Users.create({
-            email: email,
+            email: email.toLowerCase(),
             name: name,
             displayName: displayName,
             password: password,

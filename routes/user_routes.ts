@@ -2,6 +2,7 @@ import { Router } from "https://deno.land/x/oak@v5.2.0/mod.ts";
 import * as bcrypt from "https://deno.land/x/bcrypt/mod.ts";
 import { connect } from '../db.ts';
 import { Users } from '../models/users.ts'
+import auth from '../middleWare/auth_middleware.ts'
 
 connect();
 
@@ -9,7 +10,7 @@ const router = new Router();
 
 
 //retrieves all users
-router.get('/users', async (ctx) => {
+router.get('/users', auth, async (ctx) => {
     const getAllUsers = await Users.getAllUsers();
     ctx.response.body = { users: getAllUsers };
 })

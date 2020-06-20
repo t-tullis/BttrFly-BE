@@ -1,6 +1,7 @@
 import { Application, Router }from "https://deno.land/x/oak@v5.2.0/mod.ts";
 import UserRoutes from './routes/user_routes.ts'
 import PostRoutes from './routes/post_routes.ts'
+import LoginRoute from './routes/login_route.ts'
 
 const app = new Application();
 const router = new Router();
@@ -9,6 +10,10 @@ const router = new Router();
 router.get('/', (ctx) => {
     ctx.response.body = 'Deno API'
 })
+
+//allowing loginRoute
+app.use(LoginRoute.routes());
+app.use(LoginRoute.allowedMethods());
 
 //allowing userRoutes
 app.use(UserRoutes.routes());

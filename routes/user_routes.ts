@@ -1,4 +1,5 @@
 import { Router } from "https://deno.land/x/oak@v5.2.0/mod.ts";
+import * as bcrypt from "https://deno.land/x/bcrypt/mod.ts";
 import { connect } from '../db.ts';
 import { Users } from '../models/users.ts'
 
@@ -26,6 +27,7 @@ router.get('/users/:userId', async(ctx) => {
 router.post('/users', async (ctx) => {
     const body = await ctx.request.body(); 
     const { email, name, displayName, password, birthday } = body.value;
+    const hashedPw = bcrypt.hashSync(password)
     const getAllUsers = await Users.getAllUsers();
     // const getEmail = await Users.getUserProfileByEmail(email.toLowerCase());
 
@@ -65,7 +67,7 @@ router.post('/users', async (ctx) => {
             email: email.toLowerCase(),
             name: name,
             displayName: displayName,
-            password: password,
+            password: hashedPw,
             birthday: birthday,
             numOfPosts: 0,
             posts: []

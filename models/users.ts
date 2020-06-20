@@ -40,16 +40,14 @@ export class Users {
         }));
     } 
 
-    /**TRYING TO GET THIS TO WORK
-    can get initial check for email to pass but getting internal server error when moving to else statement and creating the user**/
     //Gets the users profile if it exists in the database and returns the email.
-    // static async getUserProfileByEmail(email: string){
-    //     const userProfile = await getDb()
-    //     .collection('users')
-    //     .find({email: email });
+    static async getUserProfileByEmail(email: string){
+        const userProfile = await getDb()
+        .collection('users')
+        .find({email: email });
 
-    //     return userProfile[0].email
-    // }
+        return userProfile[0]
+    }
 
     //retrieves one user from database
     static async getOneUser(id: string){
